@@ -5,6 +5,8 @@
 
 void hang();
 
+void exit_boot_services();
+
 size_t u16strlen(const uint16_t *str);
 
 void *set_memory(void *pointer, int value, size_t size);

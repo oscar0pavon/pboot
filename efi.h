@@ -33,6 +33,8 @@ typedef void * Handle;
 
 typedef uint64_t efi_uint_t;
 
+typedef uint64_t u64;
+
 typedef uint64_t efi_status_t;
 
 typedef uint64_t Status;

@@ -108,6 +108,11 @@ void boot_pkernel() {
   void* framebuffer = get_framebuffer();
 
   log(u"launching pkernel..");
+
+  log(u"Get memory");
+
+  exit_boot_services();
+
   //execute
 	(*kernel)(framebuffer,0xFFFFFFFF);
 

@@ -51,3 +51,46 @@ void *copy_memory(void *destination, const void *source, size_t size)
 void hang(){
 	while (1) {};
 }
+
+
+
+void exit_boot_services(){
+
+	struct MemoryDescriptor *mmap;
+	u64 mmap_size = 4096;
+	u64 mmap_key;
+	u64 desc_size;
+	uint32_t desc_version;
+
+
+	SystemTable* system_table = get_system_table();
+	
+	Status status;
+
+	while (1) {
+
+		allocate_memory(mmap_size,(void**)&mmap);
+
+		status = system_table->boot_table->get_memory_map(
+			&mmap_size,
+			mmap,
+			&mmap_key,
+			&desc_size,
+			&desc_version);
+		if (status == EFI_SUCCESS){
+			break;
+		}
+	}
+	
+	Handle handle = get_bootloader_handle();
+
+	status = system_table->boot_table->exit_boot_services(handle, 
+			mmap_key);
+
+	if(status != EFI_SUCCESS){
+		log(u"ERROR boot service not closed");
+		return;
+	}
+
+}
+
