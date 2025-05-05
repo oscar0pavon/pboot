@@ -11,10 +11,6 @@
 	{0x8868e871,0xe4f1,0x11d3,\
 		{0xbc,0x22,0x00,0x80,0xc7,0x3c,0x88,0x81}}
 
-#define EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID \
-    { 0x0964e5b22, 0x6459, 0x11d2, \
-      { 0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b } }
-
 
 typedef struct TextOutputProtocol			TextOutputProtocol;
 typedef struct InputProtocol					InputProtocol;
@@ -36,15 +32,6 @@ typedef uint64_t Status;
 #define EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL		0x00000001
 #define EFI_OPEN_PROTOCOL_GET_PROTOCOL					0x00000002
 
-#define EFI_FILE_MODE_READ 0x0000000000000001
-#define EFI_FILE_MODE_WRITE 0x0000000000000002
-#define EFI_FILE_MODE_CREATE 0x8000000000000000
-
-#define EFI_FILE_ARCHIVE 0x0000000000000020
-
-static const uint64_t EFI_FILE_READ_ONLY = 0x1;
-
-static const uint64_t MAX_BIT = 0x8000000000000000ULL;
 
 struct MemoryDescriptor{
 	uint32_t type;
@@ -107,32 +94,6 @@ struct SystemTable{
 	uint64_t							 number_of_table_entries;
 	ConfigurationTable    *configuration_tables;
 };
-
-typedef struct FileProtocol{
-    uint64_t revision;
-    Status (*open)(FileProtocol* self, FileProtocol** new_handle,
-										uint16_t *file_name, uint64_t open_mode,
-										uint64_t attributes);
-    Status (*close)(FileProtocol*);
-    void (*unused1)();
-    Status (*read)(FileProtocol*, uint64_t*, void *);
-    Status (*write)(FileProtocol*, uint64_t* buffer_size, void* buffer);
-    Status (*get_position)(FileProtocol*, uint64_t*);
-    Status (*set_position)(FileProtocol*, uint64_t);
-    Status (*get_info)(FileProtocol*, GUID*, uint64_t*, void*);
-    void (*unused6)();
-    void (*unused7)();
-    void (*unused8)();
-    void (*unused9)();
-    void (*unused10)();
-    void (*unused11)();
-}FileProtocol;
-
-
-typedef struct FileSystemProtocol{
-    uint64_t revision;
-    Status (*open_volume)(FileSystemProtocol* self, FileProtocol** root);
-}FileSystemProtocol;
 
 
 typedef struct LoadedImageProtocol{
