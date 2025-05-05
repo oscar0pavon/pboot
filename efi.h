@@ -27,17 +27,11 @@ typedef struct GUID										EFI_GUID;
 
 typedef void * Handle;
 
-typedef uint64_t efi_uint_t;
-
 typedef uint64_t u64;
-
-typedef uint64_t efi_status_t;
 
 typedef uint64_t Status;
 
-typedef efi_status_t efi_status;
-
-static const efi_status_t EFI_SUCCESS = 0;
+#define EFI_SUCCESS 0
 
 #define EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL		0x00000001
 #define EFI_OPEN_PROTOCOL_GET_PROTOCOL					0x00000002

@@ -3,8 +3,6 @@
 
 #include "efi.h"
 #include "types.h"
-#include <cstdint>
-#include <stdint.h>
 
 #define EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL_GUID \
 		{0xdd9e7533, 0x7762, 0x4698, \
@@ -37,6 +35,8 @@ typedef struct KeyData{
 	InputKey key;
 	KeyState state;
 }KeyData;
+
+typedef struct InputExtendProtocol InputExtendProtocol;
 
 typedef struct InputExtendProtocol{
 	Status (*reset)(InputExtendProtocol* self, bool verfication);

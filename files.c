@@ -17,7 +17,7 @@ static FileSystemProtocol* root_file_system;
 	size_t read = 0;
 
 	while (read < size) {
-		efi_uint_t remains = size - read;
+		u64 remains = size - read;
 
 		status = file->read(file, &remains, (void *)(buf + read));
 		if (status != EFI_SUCCESS) {

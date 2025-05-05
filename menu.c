@@ -67,7 +67,7 @@ void enter_in_menu_loop(){
 	InputKey key_pressed;
 	while (1) {
 	
-	efi_status status;
+	Status status;
 	status = system_table->input->read_key_stroke(system_table->input, &key_pressed);
 
 	if(status == EFI_SUCCESS){
