@@ -18,6 +18,21 @@ void log(Unicode* text){
 
 }
 
+void open_protocol(Handle handle, GUID* guid, void** out){
+
+	LoadedImageProtocol* bootloader = get_bootloader_image();
+	SystemTable* system_table = get_system_table();
+	Handle bootloader_handle = get_bootloader_handle();
+
+	Status status = system_table->boot_table->open_protocol(handle,
+			guid, out, bootloader_handle, 0,
+			EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL)	;
+
+	if(status != EFI_SUCCESS){
+		log(u"Can't open protocol");
+	}
+}
+
 
 size_t u16strlen(const uint16_t *str)
 {

@@ -75,15 +75,8 @@ void setup_file_system(){
 	struct GUID file_system_guid = EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID;
 	
 	LoadedImageProtocol* bootloader = get_bootloader_image();
-	SystemTable* system_table = get_system_table();
-	Handle bootloader_handle = get_bootloader_handle();
-
-	system_table->boot_table->open_protocol(bootloader->device,
-			&file_system_guid,
-			(void**)&root_file_system,
-			bootloader_handle,
-			0,
-			EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL)	;
+	
+	open_protocol(bootloader->device, &file_system_guid, (void**)&root_file_system);
 
 
 	Status open_volumen_status = 

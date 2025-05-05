@@ -79,12 +79,7 @@ void chainload_linux_efi_stub() {
 void get_loaded_image(){
 	GUID loaded_image_guid = EFI_LOADED_IMAGE_PROTOCOL_GUID;
 	
-	system_table->boot_table->open_protocol(bootloader_handle,
-			&loaded_image_guid,
-			(void **)&bootloader_image,
-			bootloader_handle,
-			0,
-			EFI_OPEN_PROTOCOL_BY_HANDLE_PROTOCOL)	;
+  open_protocol(bootloader_handle, &loaded_image_guid, (void**)&bootloader_image);
 }
 
 void load_kernel_file(){
