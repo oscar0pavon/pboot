@@ -2,6 +2,7 @@
 #define __EFI_H__
 
 #include "types.h"
+#include <stdint.h>
 
 #define EFI_LOADED_IMAGE_PROTOCOL_GUID \
 	{ 0x5b1b31a1, 0x9562, 0x11d2, \
@@ -26,6 +27,17 @@ typedef void * Handle;
 typedef uint64_t u64;
 
 typedef uint64_t Status;
+
+typedef void* Event;
+typedef void (*EventNotify)(Event* event, void* context);
+
+typedef enum {
+	TimerCancel,
+	TimerPeriodic,
+	TimerRelative
+} TimerDelay;
+
+#define EFI_EVENT_TIMER 0x80000000
 
 #define EFI_SUCCESS 0
 
@@ -134,12 +146,22 @@ struct BootTable
 
 	Status (*allocate_pool)(enum MemoryType, uint64_t, void **);
 	Status (*free_pool)(void *);
-	void (*unused7)();
-	void (*unused8)();
-	void (*unused9)();
-	void (*unused10)();
-	void (*unused11)();
-	void (*unused12)();
+
+	// Events and Timer services
+	Status (*create_event)(uint32_t type, uint64_t TPL, EventNotify notify,
+													void* context, Event* out_event);
+
+	Status (*set_timer)(Event* event, TimerDelay type, uint64_t trigger_time);
+
+	Status (*wait_for_event)(uint64_t number_of_events, 
+			Event* events_array, uint64_t* out_index);
+
+	void (*unused10)();//signal event
+
+	Status (*close_event)(Event* event);
+	Status (*check_event)(Event event);
+
+	//Protocol Handler Services
 	void (*unused13)();
 	void (*unused14)();
 	void (*unused15)();

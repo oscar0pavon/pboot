@@ -4,6 +4,7 @@
 #include "types.h"
 
 #include "input.h"
+#include <stdint.h>
 
 static uint8_t default_entry = 2;
 
@@ -12,6 +13,8 @@ static uint8_t number_of_entries = 0;
 static uint8_t entry_selected = 0;
 
 static bool show_menu = false;
+
+static uint64_t wait_time = 5000000;
 
 #define MAX_ENTRIES 10
 
@@ -97,18 +100,50 @@ void enter_in_menu_loop(){
 	}
 }
 
-void can_show_menu(){
+void can_show_menu() {
 
   entry_selected = default_entry;
 
   InputKey key_pressed;
 
-	SystemTable* system_table = get_system_table();
+  SystemTable *system_table = get_system_table();
 
-  system_table->input->read_key_stroke(system_table->input, &key_pressed);
+  BootTable *boot_table = system_table->boot_table;
 
-  if (key_pressed.scan_code == KEY_CODE_LEFT ||
-      key_pressed.unicode_char == u'a' || show_menu == true) {
-    enter_in_menu_loop();
+  InputProtocol *input = system_table->input;
+
+  bool checked_event = false;
+
+  Event timer_event;
+
+  Event events[2];
+
+  uint64_t event_index = 500;
+
+  while (!checked_event) {
+    boot_table->create_event(EFI_EVENT_TIMER, 0, NULL, NULL, &timer_event);
+    boot_table->set_timer(timer_event, TimerRelative, wait_time); // 500 ms
+
+    events[0] = input->wait_for_key;
+    events[1] = timer_event;
+
+    boot_table->wait_for_event(2, events, &event_index);
+    if (event_index == 0) {
+			boot_table->close_event(timer_event);
+      system_table->input->read_key_stroke(system_table->input, &key_pressed);
+      if (key_pressed.unicode_char == u'a') {
+        enter_in_menu_loop();
+      }
+      checked_event = true;
+    }
+
+    if (event_index == 1) {
+			boot_table->close_event(timer_event);
+      if (show_menu) {
+        enter_in_menu_loop();
+      }
+			checked_event = true;
+    }
+
   }
 }

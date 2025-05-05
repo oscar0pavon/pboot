@@ -69,7 +69,6 @@ void chainload_linux_efi_stub() {
   kernel_image->load_options = arguments_memory;
   kernel_image->load_options_size = arguments_size;
   
-  log(u"Booting Linux");
   status = system_table->boot_table->start_image(kernel_image_handle, 0, 0);
 
   if (status != EFI_SUCCESS) {
@@ -88,8 +87,6 @@ void load_kernel_file(){
 }
 
 void boot_pkernel() {
-
-  log(u"Booting pkernel...");
 
   get_graphics_output_protocol();
   

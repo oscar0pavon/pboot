@@ -3,6 +3,7 @@
 
 #include "efi.h"
 #include "types.h"
+#include <stdbool.h>
 
 #define EFI_SIMPLE_TEXT_INPUT_EX_PROTOCOL_GUID \
 		{0xdd9e7533, 0x7762, 0x4698, \
@@ -21,9 +22,9 @@ typedef struct{
 
 
 struct InputProtocol{
-	void		(*reset)();
-	Status	(*read_key_stroke)(InputProtocol *self, InputKey* key);
-	void		(*wait_for_key)();
+	Status (*reset)(InputProtocol* self, bool verification);
+	Status (*read_key_stroke)(InputProtocol *self, InputKey* key);
+	Event (*wait_for_key)(void);
 };
 
 typedef struct KeyState{
@@ -49,5 +50,6 @@ typedef struct InputExtendProtocol{
 }InputExtendProtocol;
 
 void init_input();
+void check_key();
 
 #endif
