@@ -71,8 +71,6 @@ void open_file(FileProtocol** file, uint16_t* name){
 
 void setup_file_system(){
 
-	//get loaded image to get device path
-	get_loaded_image();
 
 	struct GUID file_system_guid = EFI_SIMPLE_FILE_SYSTEM_PROTOCOL_GUID;
 	

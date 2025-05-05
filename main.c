@@ -141,6 +141,9 @@ void main(Handle in_bootloader_handle, SystemTable *in_system_table) {
 
   bootloader_handle = in_bootloader_handle;
 
+	//to get device path and input protocol
+	get_loaded_image();
+
   setup_file_system();
 
   load_configuration();

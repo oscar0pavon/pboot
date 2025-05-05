@@ -15,10 +15,6 @@
     { 0x0964e5b22, 0x6459, 0x11d2, \
       { 0x8e, 0x39, 0x00, 0xa0, 0xc9, 0x69, 0x72, 0x3b } }
 
-#define KEY_CODE_UP			0x01
-#define KEY_CODE_DOWN		0x02
-#define KEY_CODE_RIGHT	0x03
-#define KEY_CODE_LEFT		0x04
 
 typedef struct TextOutputProtocol			TextOutputProtocol;
 typedef struct InputProtocol					InputProtocol;

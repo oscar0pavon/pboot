@@ -3,6 +3,8 @@
 #include "pboot.h"
 #include "types.h"
 
+#include "input.h"
+
 static uint8_t default_entry = 2;
 
 static uint8_t number_of_entries = 0;
