@@ -1,3 +1,4 @@
+#include "input.h"
 #include "pboot.h"
 
 #include "menu.h"
@@ -138,6 +139,8 @@ void main(Handle in_bootloader_handle, SystemTable *in_system_table) {
 
 	//to get device path and input protocol
 	get_loaded_image();
+
+  init_input();
 
   setup_file_system();
 

@@ -91,17 +91,6 @@ typedef struct{
 	uint8_t length[2];
 }DevicePathProtocol;
 
-typedef struct{
-	uint16_t scan_code;
-	uint16_t unicode_char;
-}InputKey;
-
-
-struct InputProtocol{
-	void		(*reset)();
-	Status	(*read_key_stroke)(InputProtocol *self, InputKey* key);
-	void		(*wait_for_key)();
-};
 
 typedef struct {
 	EFI_GUID vendor_guid;
