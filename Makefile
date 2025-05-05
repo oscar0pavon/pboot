@@ -20,7 +20,8 @@ pboot.bin: start.o $(OBJS)
 	ld start.o $(OBJS) $(LDFLAGS) -o pboot.bin -T binary.ld 
 
 pboot: efi.s pboot.bin
-	fasm efi.s pboot
+	@echo "Creating pboot using fasm"
+	./tools/fasm efi.s pboot
 	chmod +x pboot
 	@echo "You have pboot"
 

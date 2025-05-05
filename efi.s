@@ -1,4 +1,4 @@
-;we use fasm to generate the EFI header. None assembly here
+;we use fasm for generate the EFI header. None assembly code here
 format pe64 efi
 section '.text' code executable readable
 
