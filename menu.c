@@ -61,13 +61,18 @@ void print_entries() {
   SystemTable *system_table = get_system_table();
 	TextOutputProtocol* output = system_table->out;	
 
+	u8 entries_position_x = 4;
+	u8 entries_position_y = 4;
+
   for (uint8_t i = 0; i < number_of_entries; i++) {
 
+		output->set_cursor_position(output, entries_position_x,entries_position_y);
     output->print(system_table->out, entries[i].entry_name);
     if (i == entry_selected) {
       system_table->out->print(system_table->out, u"*");
     }
-    output->print(system_table->out, u"\n\r");
+		entries_position_y++;
+		output->set_cursor_position(output, entries_position_x,entries_position_y);
   }
 }
 
