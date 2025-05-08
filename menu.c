@@ -111,7 +111,12 @@ void draw_menu(){
 		output->print(output, VERTICAL_UNICODE);
 	}
 
-	output->set_cursor_position(output,3,3);	
+	output->set_cursor_position(output,38,3);	
+
+	output->print(output, u"pboot");
+	
+	output->set_cursor_position(output,4,22);	
+	output->print(output, u"Up: w    Down: s   Boot: d");
 }
 
 void enter_in_menu_loop(){
