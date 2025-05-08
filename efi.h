@@ -2,7 +2,7 @@
 #define __EFI_H__
 
 #include "types.h"
-#include <stdint.h>
+#include "console.h"
 
 #define EFI_LOADED_IMAGE_PROTOCOL_GUID \
 	{ 0x5b1b31a1, 0x9562, 0x11d2, \
@@ -12,21 +12,6 @@
 	{0x8868e871,0xe4f1,0x11d3,\
 		{0xbc,0x22,0x00,0x80,0xc7,0x3c,0x88,0x81}}
 
-
-typedef struct TextOutputProtocol			TextOutputProtocol;
-typedef struct InputProtocol					InputProtocol;
-typedef struct BootTable							BootTable;
-typedef struct SystemTable						SystemTable;
-typedef struct FileProtocol						FileProtocol;
-typedef struct FileSystemProtocol			FileSystemProtocol;
-typedef struct GUID										GUID;
-typedef struct GUID										EFI_GUID;
-
-typedef void * Handle;
-
-typedef uint64_t u64;
-
-typedef uint64_t Status;
 
 typedef void* Event;
 typedef void (*EventNotify)(Event* event, void* context);
@@ -213,17 +198,5 @@ struct BootTable
 };
 
 
-struct TextOutputProtocol{
-	void (*unused1)();
-	Status (*output_string)(TextOutputProtocol*, uint16_t*);
-	void (*unused2)();
-	void (*unused3)();
-	void (*unused4)();
-	void (*unused5)();
-	Status (*clear_screen)(TextOutputProtocol*);
-	void (*unused6)();
-	void (*unused7)();
-	void *unused8;
-};
 
 #endif

@@ -4,6 +4,7 @@
 #include "types.h"
 
 #include "input.h"
+#include "utils.h"
 #include <stdint.h>
 
 static uint8_t default_entry = 2;
@@ -15,6 +16,16 @@ static uint8_t entry_selected = 0;
 static bool show_menu = false;
 
 static uint64_t wait_time = 5000000;
+
+
+static Unicode HORIZONTAL_UNICODE[2] = {0x2500,0};
+
+static Unicode VERTICAL_UNICODE[2] = {0x2502,0};
+
+static Unicode corner1[2] = {0x250C,0};
+static Unicode corner2[2] = {0x2510,0};
+static Unicode corner3[2] = {0x2518,0};
+static Unicode corner4[2] = {0x2514,0};
 
 #define MAX_ENTRIES 10
 
@@ -59,12 +70,51 @@ void print_entries() {
   }
 }
 
+void draw_menu(){
+	SystemTable* system_table = get_system_table();
+	u32 column = system_table->out->mode->column;
+	u32 row = system_table->out->mode->row;
+
+	TextOutputProtocol* output = system_table->out;	
+	
+	
+	output->clear_screen(output);
+	output->set_cursor_position(output,2,2);	
+	output->output_string(output, corner1);
+	
+	output->set_cursor_position(output,78,2);	
+	output->output_string(output, corner2);
+
+	output->set_cursor_position(output,78,23);	
+	output->output_string(output, corner3);
+
+	output->set_cursor_position(output,2,23);	
+	output->output_string(output, corner4);
+
+	for(int i = 3; i < 78; i++){
+		output->set_cursor_position(output,i,2);	
+		output->output_string(output, HORIZONTAL_UNICODE);
+		output->set_cursor_position(output,i,23);	
+		output->output_string(output, HORIZONTAL_UNICODE);
+	}
+
+	for(int i = 3; i < 23; i++){
+		output->set_cursor_position(output,2,i);	
+		output->output_string(output, VERTICAL_UNICODE);
+		output->set_cursor_position(output,78,i);	
+		output->output_string(output, VERTICAL_UNICODE);
+	}
+
+	output->set_cursor_position(output,3,3);	
+}
+
 void enter_in_menu_loop(){
 	
 	SystemTable* system_table = get_system_table();
 	
 	system_table->out->clear_screen(system_table->out);
 
+	draw_menu();
 	print_entries();
 
 	InputKey key_pressed;
@@ -89,6 +139,7 @@ void enter_in_menu_loop(){
 		}
 	
 		system_table->out->clear_screen(system_table->out);
+		draw_menu();
 		print_entries();
 	
 		if(key_pressed.scan_code == KEY_CODE_RIGHT || key_pressed.unicode_char == u'd'){
