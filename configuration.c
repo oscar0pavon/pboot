@@ -33,7 +33,7 @@ void parse_configuration(uint64_t config_file_size, char* config){
 	//log(unicode_config);
 
 	SystemTable* system_table = get_system_table();
-	system_table->out->output_string(system_table->out,unicode_config);
+	system_table->out->print(system_table->out,unicode_config);
 	log(u"configuration loaded");
 	//hang();
 }

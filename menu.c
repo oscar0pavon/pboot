@@ -59,14 +59,15 @@ Unicode* get_selected_parameters() {
 
 void print_entries() {
   SystemTable *system_table = get_system_table();
+	TextOutputProtocol* output = system_table->out;	
 
   for (uint8_t i = 0; i < number_of_entries; i++) {
 
-    system_table->out->output_string(system_table->out, entries[i].entry_name);
+    output->print(system_table->out, entries[i].entry_name);
     if (i == entry_selected) {
-      system_table->out->output_string(system_table->out, u"*");
+      system_table->out->print(system_table->out, u"*");
     }
-    system_table->out->output_string(system_table->out, u"\n\r");
+    output->print(system_table->out, u"\n\r");
   }
 }
 
@@ -80,29 +81,29 @@ void draw_menu(){
 	
 	output->clear_screen(output);
 	output->set_cursor_position(output,2,2);	
-	output->output_string(output, corner1);
+	output->print(output, corner1);
 	
 	output->set_cursor_position(output,78,2);	
-	output->output_string(output, corner2);
+	output->print(output, corner2);
 
 	output->set_cursor_position(output,78,23);	
-	output->output_string(output, corner3);
+	output->print(output, corner3);
 
 	output->set_cursor_position(output,2,23);	
-	output->output_string(output, corner4);
+	output->print(output, corner4);
 
 	for(int i = 3; i < 78; i++){
 		output->set_cursor_position(output,i,2);	
-		output->output_string(output, HORIZONTAL_UNICODE);
+		output->print(output, HORIZONTAL_UNICODE);
 		output->set_cursor_position(output,i,23);	
-		output->output_string(output, HORIZONTAL_UNICODE);
+		output->print(output, HORIZONTAL_UNICODE);
 	}
 
 	for(int i = 3; i < 23; i++){
 		output->set_cursor_position(output,2,i);	
-		output->output_string(output, VERTICAL_UNICODE);
+		output->print(output, VERTICAL_UNICODE);
 		output->set_cursor_position(output,78,i);	
-		output->output_string(output, VERTICAL_UNICODE);
+		output->print(output, VERTICAL_UNICODE);
 	}
 
 	output->set_cursor_position(output,3,3);	

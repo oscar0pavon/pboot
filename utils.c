@@ -13,8 +13,8 @@ void allocate_memory(uint64_t size, void** memory){
 void log(Unicode* text){
 	SystemTable* system_table = get_system_table();
 	
-	system_table->out->output_string(system_table->out,text);
-	system_table->out->output_string(system_table->out,u"\n\r");
+	system_table->out->print(system_table->out,text);
+	system_table->out->print(system_table->out,u"\n\r");
 
 }
 

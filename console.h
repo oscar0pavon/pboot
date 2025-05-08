@@ -15,7 +15,7 @@ typedef struct OutputMode{
 
 struct TextOutputProtocol{
 	void (*unused1)();
-	Status (*output_string)(TextOutputProtocol*, Unicode*);
+	Status (*print)(TextOutputProtocol*, Unicode*);
 	void (*unused2)();
 	void (*unused3)();
 	void (*unused4)();
