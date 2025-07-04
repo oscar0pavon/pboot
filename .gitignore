@@ -3,6 +3,8 @@ pboot
 *.d
 *.o
 *.bin
+*.efi
+
 virtual_machine/disk/*
 NvVars
 

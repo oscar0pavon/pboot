@@ -4,8 +4,6 @@
 #include "types.h"
 
 #include "input.h"
-#include "utils.h"
-#include <stdint.h>
 
 static uint8_t default_entry = 2;
 

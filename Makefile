@@ -21,18 +21,18 @@ pboot.bin: start.o $(OBJS)
 
 pboot: efi.s pboot.bin
 	@echo "Creating pboot using fasm"
-	./tools/fasm efi.s pboot
-	chmod +x pboot
+	./tools/fasm efi.s pboot.efi
+	chmod +x pboot.efi
 	@echo "You have pboot"
 
 
 clean:
 	rm -f *.o
-	rm -f pboot
+	rm -f pboot.efi
 	rm -f pboot.bin
 
 install:
-	cp pboot /boot/EFI/pboot/pboot.efi
+	cp pboot.efi /boot/EFI/pboot/pboot.efi
 	@echo "Installed on /boot/EFI/pboot/pboot.efi"
 
 $(LOG).SILENT:
