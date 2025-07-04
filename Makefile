@@ -33,5 +33,6 @@ clean:
 
 install:
 	cp pboot /boot/EFI/pboot/pboot.efi
+	@echo "Installed on /boot/EFI/pboot/pboot.efi"
 
 $(LOG).SILENT:

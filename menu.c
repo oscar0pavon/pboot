@@ -29,6 +29,9 @@ static Unicode corner4[2] = {0x2514,0};
 
 #define MAX_ENTRIES 10
 
+static u8 entries_position_x = 4;
+static u8 entries_position_y = 4;
+
 static BootLoaderEntry entries[MAX_ENTRIES] = {};
 
 void set_number_of_entries(uint8_t number){
@@ -56,24 +59,43 @@ Unicode* get_selected_parameters() {
   return entries[entry_selected].kernel_parameters;
 }
 
+void clean_entries(){
+		
+  SystemTable *system_table = get_system_table();
+	TextOutputProtocol* output = system_table->out;	
+
+  for (uint8_t i = 0; i < number_of_entries; i++) {
+		
+		output->set_cursor_position(output, entries_position_x,entries_position_y);
+		system_table->out->print(system_table->out, u"                           ");
+		entries_position_y++;
+	}
+
+	entries_position_y = 4;
+}
 
 void print_entries() {
   SystemTable *system_table = get_system_table();
 	TextOutputProtocol* output = system_table->out;	
 
-	u8 entries_position_x = 4;
-	u8 entries_position_y = 4;
+	clean_entries();
 
   for (uint8_t i = 0; i < number_of_entries; i++) {
 
 		output->set_cursor_position(output, entries_position_x,entries_position_y);
+
     output->print(system_table->out, entries[i].entry_name);
+
     if (i == entry_selected) {
       system_table->out->print(system_table->out, u"*");
     }
 		entries_position_y++;
 		output->set_cursor_position(output, entries_position_x,entries_position_y);
   }
+
+	//reset position
+	entries_position_x = 4;
+	entries_position_y = 4;
 }
 
 void draw_menu(){
@@ -85,6 +107,7 @@ void draw_menu(){
 	
 	
 	output->clear_screen(output);
+
 	output->set_cursor_position(output,2,2);	
 	output->print(output, corner1);
 	
@@ -123,8 +146,6 @@ void enter_in_menu_loop(){
 	
 	SystemTable* system_table = get_system_table();
 	
-	system_table->out->clear_screen(system_table->out);
-
 	draw_menu();
 	print_entries();
 
@@ -139,6 +160,7 @@ void enter_in_menu_loop(){
 		if(key_pressed.scan_code == KEY_CODE_UP || key_pressed.unicode_char == u'w'){
 			if(entry_selected > 0){
 				entry_selected--;
+				print_entries();
 			}
 		}
 
@@ -146,12 +168,10 @@ void enter_in_menu_loop(){
 
 			if(entry_selected < number_of_entries-1){//-1 because start at 0
 				entry_selected++;
+				print_entries();
 			}	
 		}
 	
-		system_table->out->clear_screen(system_table->out);
-		draw_menu();
-		print_entries();
 	
 		if(key_pressed.scan_code == KEY_CODE_RIGHT || key_pressed.unicode_char == u'd'){
 			system_table->out->clear_screen(system_table->out);
