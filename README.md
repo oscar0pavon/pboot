@@ -20,3 +20,15 @@ You can load Linux kernels with parameters.
     mkdir -p /boot/EFI/pboot
     cp pboot /boot/EFI/pboot/pboot.efi
     efibootmgr --create --disk /dev/nvme0n1 --part 1 -L "pboot" --loader '\EFI\pboot\pboot.efi'
+
+## Configuration file
+
+The file must to be in /boot/pboot.conf
+Example:
+Obs: Comments not supported with #
+m 1 #show menu
+e 0 #which value start 
+n "Arch Linux" #name
+k "vmlinuz" #kernel name
+p "root=/dev/sda1" #kernel prameter
+
