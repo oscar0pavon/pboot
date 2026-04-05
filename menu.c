@@ -171,7 +171,8 @@ void enter_in_menu_loop(){
 		}
 	
 	
-		if(key_pressed.scan_code == KEY_CODE_RIGHT || key_pressed.unicode_char == u'd'){
+		if(key_pressed.scan_code == KEY_CODE_RIGHT || key_pressed.unicode_char == u'd' || 
+        key_pressed.unicode_char == KEY_ENTER){
 			system_table->out->clear_screen(system_table->out);
 			boot();		
 		}

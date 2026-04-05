@@ -13,7 +13,7 @@
 #define KEY_CODE_DOWN		0x02
 #define KEY_CODE_RIGHT	0x03
 #define KEY_CODE_LEFT		0x04
-
+#define KEY_ENTER       0x000D
 
 typedef struct{
 	uint16_t scan_code;
