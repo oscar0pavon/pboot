@@ -1,7 +1,7 @@
 #include "graphics.h"
 #include "efi.h"
 #include "pboot.h"
-#include <stdint.h>
+#include "memory.h"
 
 static EfiGraphicsOutputProtocol* graphics_output_protocol;
 static FrameBuffer frame_buffer;

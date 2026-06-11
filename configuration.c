@@ -1,9 +1,8 @@
-#include "efi.h"
 #include "menu.h"
 #include "types.h"
-#include "utils.h"
 #include "pboot.h"
 #include "files.h"
+#include "memory.h"
 
 static int current_parsing_entry = 0;
 

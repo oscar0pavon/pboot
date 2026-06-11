@@ -1,7 +1,7 @@
 #include "files.h"
 #include "efi.h"
 #include "utils.h"
-
+#include "memory.h"
 #include "pboot.h"
 
 static FileProtocol* root_directory;

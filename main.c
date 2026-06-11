@@ -5,6 +5,7 @@
 #include "types.h"
 #include "utils.h"
 #include "graphics.h"
+#include "memory.h"
 
 static Handle* bootloader_handle;
 static SystemTable* system_table;
@@ -15,6 +16,7 @@ static LoadedImageProtocol* bootloader_image;
 
 static Unicode* selected_kernel_name;
 static Unicode* selected_kernel_parameters;
+
 
 Handle get_bootloader_handle(){
   return bootloader_handle;
