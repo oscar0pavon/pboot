@@ -8,6 +8,34 @@
 
 static int current_parsing_entry = 0;
 
+
+
+int compare_string(const char* string1, const char* string2) {
+  while (*string1 && (*string1 == *string2)) {
+      string1++;
+      string2++;
+  }
+  return *(const unsigned char*)string1 - *(const unsigned char*)string2;
+}
+
+//Moves pointer past spaces and tabs
+const char* skip_spaces(const char* p) {
+    while (*p == ' ' || *p == '\t') p++;
+    return p;
+}
+
+//Reads a word until a space, newline, or null terminator is hit
+const char* read_word(const char* src, char* dest, int max_len) {
+    src = skip_spaces(src);
+    int i = 0;
+    while (*src && *src != ' ' && *src != '\t' && 
+        *src != '\n' && *src != '\r' && i < max_len - 1) {
+        dest[i++] = *src++;
+    }
+    dest[i] = '\0';
+    return src;
+}
+
 void parse_configuration(uint64_t config_file_size, char* config){
 
 	void* unicode_config;
