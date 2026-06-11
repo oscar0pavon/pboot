@@ -4,8 +4,9 @@
 #include "menu.h"
 #include "types.h"
 #include "utils.h"
-#include "graphics.h"
 #include "memory.h"
+
+#include "pkernel.h"
 
 static Handle* bootloader_handle;
 static SystemTable* system_table;
@@ -17,6 +18,9 @@ static LoadedImageProtocol* bootloader_image;
 static Unicode* selected_kernel_name;
 static Unicode* selected_kernel_parameters;
 
+FileProtocol* get_kernel_file(){
+  return opened_kernel_file;
+}
 
 Handle get_bootloader_handle(){
   return bootloader_handle;
@@ -88,34 +92,6 @@ void load_kernel_file(){
 	open_file(&opened_kernel_file,selected_kernel_name);
 }
 
-void boot_pkernel() {
-
-  get_graphics_output_protocol();
-  
-	load_kernel_file();
-
-  void *kernel_in_memory = read_file(opened_kernel_file);
-
-	void (*kernel)(void*,uint64_t);
-
-	kernel = (void (*)(void*,uint64_t))kernel_in_memory;
-  
-  void* framebuffer = get_framebuffer();
-
-  log(u"launching pkernel..");
-
-  log(u"Get memory");
-
-  exit_boot_services();
-
-  //execute
-	(*kernel)(framebuffer,0xFFFFFFFF);
-
-  log(u"executed");
-  
-  //we never got here
-  hang();
-}
 
 void boot(){
 
