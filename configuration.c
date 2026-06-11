@@ -4,18 +4,27 @@
 #include "utils.h"
 #include "pboot.h"
 #include "files.h"
-#include <stdint.h>
 
 static int current_parsing_entry = 0;
 
-
-
-int compare_string(const char* string1, const char* string2) {
-  while (*string1 && (*string1 == *string2)) {
-      string1++;
-      string2++;
+int strncmp(const char* s1, const char* s2, size_t n) {
+  while (n && *s1 && (*s1 == *s2)) {
+      s1++;
+      s2++;
+      n--;
   }
-  return *(const unsigned char*)string1 - *(const unsigned char*)string2;
+  if (n == 0) {
+      return 0;
+  }
+  return *(const unsigned char*)s1 - *(const unsigned char*)s2;
+}
+
+int strcmp(const char* s1, const char* s2) {
+  while (*s1 && (*s1 == *s2)) {
+      s1++;
+      s2++;
+  }
+  return *(const unsigned char*)s1 - *(const unsigned char*)s2;
 }
 
 //Moves pointer past spaces and tabs
