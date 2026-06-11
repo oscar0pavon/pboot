@@ -147,5 +147,5 @@ void main(Handle in_bootloader_handle, SystemTable *in_system_table) {
   
   boot();
 
-  // we never got here
+  // we never reach here
 }
