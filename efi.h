@@ -38,8 +38,10 @@ struct MemoryDescriptor{
 	uint64_t attributes;
 };
 
-enum AllocateType{
-	EFI_ALLOCATE_ANY_PAGES,
+enum AllocateType {
+    EFI_ALLOCATE_ANY_PAGES,
+    EFI_ALLOCATE_MAX_ADDRESS,
+    EFI_ALLOCATE_ADDRESS,
 };
 
 enum MemoryType{
