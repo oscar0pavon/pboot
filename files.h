@@ -46,6 +46,11 @@ typedef struct FileSystemProtocol{
 
 void* read_file(FileProtocol* file);
 
+Status read_file_to_memory(
+	struct FileProtocol *file,
+	size_t size,
+	void *destination);
+
 uint64_t get_file_size(FileProtocol* file);
 
 void open_file(FileProtocol** file, uint16_t* name);
