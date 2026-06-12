@@ -47,10 +47,11 @@ void boot_pkernel() {
 
   void *kernel_in_efi_memory = read_file(get_kernel_file());
 
+  uint64_t kernel_size = get_file_size(get_kernel_file());
 
   copy_memory((void*)pkernel_physical_address,
       kernel_in_efi_memory,
-      get_file_size(get_kernel_file()));
+      kernel_size);
 
 	
   void (*run_kernel)(void*,uint64_t);
