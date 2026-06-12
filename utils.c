@@ -56,8 +56,17 @@ void exit_boot_services(){
 	Status status;
 
 	while (1) {
+    uint64_t safe_mmap_address = 0x5000000; 
+    uint64_t pages_needed = (mmap_size + 4095) / 4096;
 
-		allocate_memory(mmap_size,(void**)&mmap);
+    status = system_table->boot_table->allocate_pages(
+          EFI_ALLOCATE_ADDRESS,
+          EFI_LOADER_DATA,
+          pages_needed,
+          &safe_mmap_address
+      );
+
+    mmap = (struct MemoryDescriptor*)safe_mmap_address;
 
 		status = system_table->boot_table->get_memory_map(
 			&mmap_size,
