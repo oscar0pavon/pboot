@@ -9,6 +9,86 @@ static uint64_t pkernel_physical_address = 0x4000000;
 
 static uint64_t pkernel_file_size;
 
+struct ACPISystemDescriptorTableHeader{
+	char signature[4];
+	uint32_t length;
+	uint8_t revision;
+	uint8_t checksum;
+	char OEMID[6];
+	char OEMTableID[8];
+	uint32_t OPEMRevision;
+	uint32_t creator_id;
+	uint32_t creator_revision;
+}__attribute__ ((packed));
+
+
+
+struct XSDP_t {
+	char signature[8];
+	uint8_t checksum;
+	char OEMID[6];
+	uint8_t revision;
+	uint32_t rsdt_address;
+	uint32_t length;
+	uint64_t XSDT_address;//XSDT(eXtended System Description Table)
+	uint8_t extended_checksum;
+	uint8_t reserved[3];
+}__attribute__ ((packed));
+
+
+struct XSDP_t* acpi_table = NULL;
+struct XSDT_t* XSDT;
+
+bool compare_efi_guid(EFI_GUID* guid1, EFI_GUID* guid2){
+
+	if(guid1->data1 != guid2->data1){
+		return false;
+	}
+	if(guid1->data2 != guid2->data2){
+		return false;
+	}
+	if(guid1->data3 != guid2->data3){
+		return false;
+	}
+
+	for(int i = 0; i<8;i++){
+		if(guid1->data4[i] != guid2->data4[i]){
+			return false;
+		}
+	}
+
+	return true;
+}
+
+void get_acpi_table(){
+
+	//get ACPI 2.0 table
+  
+  SystemTable* system_table = get_system_table();
+
+	EFI_GUID acpi_guid = EFI_ACPI_20_TABLE_GUID;
+
+	for(int i = 0; i < system_table->number_of_table_entries; i++){
+		ConfigurationTable* table = &system_table->configuration_tables[i];
+		
+		if(compare_efi_guid(&table->vendor_guid,&acpi_guid)){
+			acpi_table = table->vendor_table;
+			break;
+		}
+
+	}
+	if(acpi_table == NULL){
+		log(u"Acpi not work");
+		hang();
+	}
+
+
+	//XSDT = (struct XSDT_t*)acpi_table->XSDT_address;
+	//log(u"XSDT");
+	
+
+}
+
 void get_memory_address_for_pkernel(){
  
   pkernel_file_size = get_file_size(get_kernel_file());
@@ -40,6 +120,8 @@ void get_memory_address_for_pkernel(){
 void boot_pkernel() {
 
   get_graphics_output_protocol();
+
+  get_acpi_table();
   
 	load_kernel_file();
 
@@ -64,7 +146,7 @@ void boot_pkernel() {
   exit_boot_services();
 
   //execute
-	(*run_kernel)(framebuffer,0xFFFFFFFF);
+	(*run_kernel)(framebuffer,acpi_table->XSDT_address);
 
   log(u"executed");
   
