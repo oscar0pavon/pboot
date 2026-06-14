@@ -23,6 +23,12 @@ enum MemoryType {
   EFI_LOADER_DATA,
 };
 
+typedef struct MemoryMapInfo{
+  uint64_t buffer_address; // Absolute physical memory address of the mmap data (0x5000000)
+  uint64_t total_size;     // Total bytes populated in the buffer
+  uint64_t descriptor_size;// Unique hardware stepping size (usually 40 or 48 bytes)
+}MemoryMapInfo;
+
 void *copy_memory(void *destination, const void *source, size_t size);
 
 void allocate_memory(uint64_t size, void **memory);

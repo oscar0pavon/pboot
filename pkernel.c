@@ -1,3 +1,4 @@
+#include "pkernel.h"
 #include "efi.h"
 #include "pboot.h"
 #include "graphics.h"
@@ -8,6 +9,12 @@
 static uint64_t pkernel_physical_address = 0x4000000;
 
 static uint64_t pkernel_file_size;
+
+static BootInfo boot_info;
+
+BootInfo* get_boot_info(){
+  return &boot_info;
+}
 
 struct ACPISystemDescriptorTableHeader{
 	char signature[4];
@@ -136,6 +143,16 @@ void get_memory_address_for_pkernel(){
 
 }
 
+BootInfo* setup_boot_info(){
+  FrameBuffer* framebuffer = get_framebuffer();
+  BootInfo* boot_info = get_boot_info();
+  boot_info->frame_buffer = *framebuffer;
+  boot_info->xsdt_address = acpi_table->XSDT_address;
+
+  BootInfo* new_boot_info;
+  allocate_memory(sizeof(BootInfo),(void**)&new_boot_info);
+  copy_memory(new_boot_info, boot_info, sizeof(BootInfo));
+}
 
 void boot_pkernel() {
 
@@ -153,23 +170,22 @@ void boot_pkernel() {
       (void*)pkernel_physical_address);
 
 	
-  void (*run_kernel)(void*,uint64_t);
+  void (*run_kernel)(BootInfo*);
 
-	run_kernel = (void (*)(void*,uint64_t))pkernel_physical_address;
+	run_kernel = (void (*)(BootInfo*))pkernel_physical_address;
   
-  void* framebuffer = get_framebuffer();
+  BootInfo* boot_info = setup_boot_info();
+
 
   log(u"launching pkernel..");
-
-  log(u"Get memory");
 
   exit_boot_services();
 
   //execute
-	(*run_kernel)(framebuffer,acpi_table->XSDT_address);
+	(*run_kernel)(boot_info);
 
   log(u"executed");
   
-  //we never got here
+  //never reach here
   hang();
 }
