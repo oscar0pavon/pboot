@@ -12,13 +12,9 @@ LoadedImageProtocol* get_bootloader_image();
 
 void hang();
 
-void exit_boot_services();
-
 size_t u16strlen(const uint16_t *str);
 
-
 void log(Unicode* text);
-
 
 void open_protocol(Handle handle, GUID* guid, void** out);
 
