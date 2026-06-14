@@ -65,6 +65,6 @@ u64 get_memory_map_key(){
 		}
 	}
 	
-
+  return mmap_key;
 }
 
