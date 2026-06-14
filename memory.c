@@ -2,8 +2,12 @@
 #include "pkernel.h"
 #include "types.h"
 #include "utils.h"
+#include <stdint.h>
 
 #define EFI_BUFFER_TOO_SMALL 0x8000000000000005ULL
+
+static uint64_t safe_mmap_address = 0x5000000;
+
 
 void *set_memory(void *pointer, int value, size_t size) {
   char *to = pointer;
@@ -49,7 +53,6 @@ u64 get_memory_map_key() {
   mmap_size += (desc_size * 4);
 
   while (1) {
-    uint64_t safe_mmap_address = 0x5000000;
     uint64_t pages_needed = (mmap_size + 4095) / 4096;
 
     status = system_table->boot_table->allocate_pages(

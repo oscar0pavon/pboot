@@ -10,10 +10,14 @@ static uint64_t pkernel_physical_address = 0x4000000;
 
 static uint64_t pkernel_file_size;
 
-static BootInfo boot_info;
+static BootInfo* boot_info = NULL;
 
 BootInfo* get_boot_info(){
-  return &boot_info;
+  return boot_info;
+}
+
+void set_boot_info(BootInfo* in){
+  boot_info = in; 
 }
 
 struct ACPISystemDescriptorTableHeader{
@@ -146,13 +150,18 @@ void get_memory_address_for_pkernel(){
 
 BootInfo* setup_boot_info(){
   FrameBuffer* framebuffer = get_framebuffer();
-  BootInfo* boot_info = get_boot_info();
-  boot_info->frame_buffer = *framebuffer;
-  boot_info->xsdt_address = acpi_table->XSDT_address;
 
   BootInfo* new_boot_info;
   allocate_memory(sizeof(BootInfo),(void**)&new_boot_info);
   copy_memory(new_boot_info, boot_info, sizeof(BootInfo));
+
+  set_boot_info(new_boot_info);
+
+  BootInfo* boot_info = get_boot_info();
+  boot_info->frame_buffer = *framebuffer;
+  boot_info->xsdt_address = acpi_table->XSDT_address;
+
+  return new_boot_info;
 }
 
 void boot_pkernel() {
@@ -175,8 +184,9 @@ void boot_pkernel() {
 
 	run_kernel = (void (*)(BootInfo*))pkernel_physical_address;
   
-  BootInfo* boot_info = setup_boot_info();
 
+
+  BootInfo* boot_info = setup_boot_info();
 
   log(u"launching pkernel..");
 

@@ -13,6 +13,8 @@ typedef struct BootInfo{
 
 BootInfo* get_boot_info();
 
+void set_boot_info(BootInfo* in);
+
 void boot_pkernel();
 
 #endif
