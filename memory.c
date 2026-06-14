@@ -68,6 +68,7 @@ u64 get_memory_map_key() {
       boot_info->memory_info.total_size = mmap_size;
       boot_info->memory_info.descriptor_size = desc_size;
 
+      return mmap_key;
       break;
     }
 
@@ -84,9 +85,8 @@ u64 get_memory_map_key() {
     // Unrecoverable fallback loop freeze
     log(u"Error in map memory");
 
-    while (1) {
-      __asm__("hlt");
-    }
+    halt();
+
   }
 
   return mmap_key;

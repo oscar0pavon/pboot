@@ -18,4 +18,6 @@ void log(Unicode* text);
 
 void open_protocol(Handle handle, GUID* guid, void** out);
 
+void halt();
+
 #endif

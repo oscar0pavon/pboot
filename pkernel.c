@@ -61,6 +61,7 @@ void exit_boot_services(){
 
 	if(status != EFI_SUCCESS){
 		log(u"ERROR boot service not closed");
+    halt();
 		return;
 	}
 
@@ -180,6 +181,7 @@ void boot_pkernel() {
   log(u"launching pkernel..");
 
   exit_boot_services();
+
 
   //execute
 	(*run_kernel)(boot_info);

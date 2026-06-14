@@ -5,6 +5,13 @@
 #include "memory.h"
 
 
+void halt(){
+
+  while (1) {
+    __asm__("hlt");
+  }
+}
+
 void log(Unicode* text){
 	SystemTable* system_table = get_system_table();
 	
