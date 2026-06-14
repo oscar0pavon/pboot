@@ -3,6 +3,7 @@
 
 #include "types.h"
 #include "console.h"
+#include "memory.h"
 
 #define EFI_LOADED_IMAGE_PROTOCOL_GUID \
 	{ 0x5b1b31a1, 0x9562, 0x11d2, \
@@ -30,25 +31,6 @@ typedef enum {
 #define EFI_OPEN_PROTOCOL_GET_PROTOCOL					0x00000002
 
 
-struct MemoryDescriptor{
-	uint32_t type;
-	uint64_t physical_start;
-	uint64_t virtual_start;
-	uint64_t pages;
-	uint64_t attributes;
-};
-
-enum AllocateType {
-    EFI_ALLOCATE_ANY_PAGES,
-    EFI_ALLOCATE_MAX_ADDRESS,
-    EFI_ALLOCATE_ADDRESS,
-};
-
-enum MemoryType{
-	EFI_LOADER_CODE,
-	EFI_LOADER_DATA,
-};
-
 struct GUID{
 	uint32_t data1;
 	uint16_t data2;
@@ -63,7 +45,6 @@ struct TableHeader{
 	uint32_t crc32;
 	uint32_t reserved;
 };
-
 
 typedef struct{
 	uint8_t type;

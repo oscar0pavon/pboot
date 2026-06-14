@@ -1,5 +1,7 @@
-#include "efi.h"
+#include "memory.h"
+#include "types.h"
 #include "utils.h"
+
 void *set_memory(void *pointer, int value, size_t size)
 {
 	char *to = pointer;
@@ -25,3 +27,9 @@ void allocate_memory(uint64_t size, void** memory){
 	system_table->boot_table->allocate_pool(
 			EFI_LOADER_DATA, size, memory);
 }
+
+u64 get_memory_map_key(){
+
+
+}
+
