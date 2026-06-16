@@ -55,6 +55,8 @@ uint64_t get_file_size(FileProtocol* file);
 
 void open_file(FileProtocol** file, uint16_t* name);
 
+void close_file(FileProtocol* file);
+
 void setup_file_system();
 
 #endif

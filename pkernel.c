@@ -1,5 +1,6 @@
 #include "pkernel.h"
 #include "efi.h"
+#include "files.h"
 #include "pboot.h"
 #include "graphics.h"
 #include "utils.h"
@@ -178,6 +179,8 @@ void boot_pkernel() {
 
   read_file_to_memory(get_kernel_file(), kernel_size, 
       (void*)pkernel_physical_address);
+
+  close_file(get_kernel_file());
 
 	
   void (*run_kernel)(BootInfo*);
