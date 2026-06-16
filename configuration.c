@@ -75,8 +75,7 @@ void parse_configuration(uint64_t config_file_size, char* config){
 }
 
 Unicode ascii_to_unicode(char character){
-	short unicode;
-	unicode = (short)character;
+  return (Unicode)(unsigned char)character;
 }
 
 const char* parse_string(const char* word, Unicode* output){
