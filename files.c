@@ -43,11 +43,17 @@ uint64_t get_file_size(FileProtocol* file){
 void* read_file(FileProtocol* file){
 	void* memory;
   uint64_t file_size = get_file_size(file);
-  allocate_memory(file_size , &memory);
+  // Allocate one extra byte so the buffer can be null-terminated.
+  // allocate_pool does not zero memory, and callers like the config
+  // parser scan with while(*p); without a terminator they run off the
+  // end of the file into uninitialized pool memory.
+  allocate_memory(file_size + 1, &memory);
 
   read_file_to_memory(file, file_size, memory);
 
-	return memory;	
+  ((unsigned char*)memory)[file_size] = '\0';
+
+	return memory;
 }
 
 void open_file(FileProtocol** file, uint16_t* name){
