@@ -29,7 +29,7 @@ clean:
 	rm -f pboot.bin
 
 install:
-	cp pboot.efi /boot/EFI/pboot/pboot.efi
-	@echo "Installed on /boot/EFI/pboot/pboot.efi"
+	cp pboot.efi /boot/pboot.efi
+	@echo "Installed on /boot/pboot.efi"
 
 $(LOG).SILENT:
