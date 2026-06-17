@@ -70,7 +70,7 @@ void open_file(FileProtocol** file, uint16_t* name){
 
 void close_file(FileProtocol* file){
 
-  Status status = root_directory->close(file);
+  Status status = file->close(file);
 
   if (status != EFI_SUCCESS) {
     log(u"Can't close file");

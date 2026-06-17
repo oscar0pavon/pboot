@@ -24,7 +24,7 @@ typedef struct{
 struct InputProtocol{
 	Status (*reset)(InputProtocol* self, bool verification);
 	Status (*read_key_stroke)(InputProtocol *self, InputKey* key);
-	Event (*wait_for_key)(void);
+	Event wait_for_key;
 };
 
 typedef struct KeyState{
