@@ -115,14 +115,11 @@ void load_configuration(){
 		return;
 	}
 
-	uint8_t entries_count = current_parsing_entry - 1;
+	uint8_t entries_count = current_parsing_entry;
 	set_number_of_entries(entries_count);
 
-	if(default_entry > entries_count){
-		if(entries_count == 1)
-			default_entry = 0;
-		else
-			default_entry = entries_count;
+	if(default_entry >= entries_count){
+		default_entry = entries_count - 1;
 	}
 
 	set_default_entry(default_entry);
