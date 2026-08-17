@@ -103,7 +103,7 @@ void load_configuration(){
 			config++;
 			config++;
 			BootLoaderEntry* entries = get_entries();
-			config = parse_string(config, entries[current_parsing_entry].kernel_parameters, 100);
+			config = parse_string(config, entries[current_parsing_entry].kernel_parameters, 256);
 			current_parsing_entry++;
 		}
 		config++;
