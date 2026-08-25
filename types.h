@@ -11,7 +11,7 @@ typedef uint16_t Unicode;
 typedef struct {
 	Unicode entry_name[20];
 	Unicode kernel_name[20];
-	Unicode kernel_parameters[256];
+	Unicode kernel_parameters[512];
 }BootLoaderEntry;
 
 typedef struct TextOutputProtocol			TextOutputProtocol;
